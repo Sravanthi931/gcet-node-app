@@ -8,3 +8,4 @@ app.get("/",(req,res)=>{
 });
 app.get("/greet",(req,res)=>(res.send("greetings")))
 app.get("/name",(req,res)=>(res.send("Sravanthi")))
+app.get("/weather",(req,res)=>(res.send("30 degrees")))
