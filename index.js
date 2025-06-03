@@ -1,42 +1,48 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-
 const app = express();
-app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/gcet")
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB connection error:", err));
+app.listen(8080, () => {
+  mongoose.connect("mongodb://localhost:27017/gcet");
+  console.log("server started");
+});
 
-const userSchema = new mongoose.Schema({
+const userSchema = mongoose.Schema({
   name: { type: String },
+  email: { type: String },
+  pass: { type: String },
 });
-const User = mongoose.model("User", userSchema);
+
+const user = mongoose.model("User", userSchema);
+
+app.use(cors());
+app.use(express.json());
+
 app.get("/", (req, res) => {
-  res.send("Good Morning");
+  return res.send("Hello World");
 });
 
-app.get("/register", async (req, res) => {
-  try {
-    const result = await User.create({ name: "Sravanthi" });
-    return res.json(result);
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
+app.post("/register", async (req, res) => {
+  const { name, email, pass } = req.body;
+  const result = await user.insertOne({
+    name: name,
+    email: email,
+    pass: pass,
+  });
+  return res.json(result);
 });
-
 
 app.get("/greet", (req, res) => {
   res.send("Greetings");
 });
 
 app.get("/name", (req, res) => {
-  res.send("Sravanthi");
+  res.send("Umadevi");
 });
 
 app.get("/weather", (req, res) => {
-  res.send("30 degrees");
+  res.send("35 degrees");
 });
 
 app.get("/products", (req, res) => {
@@ -46,7 +52,4 @@ app.get("/products", (req, res) => {
     { name: "Product 3", price: 45 },
   ];
   res.json(products);
-});
-app.listen(8080, () => {
-  console.log("Server started on http://localhost:8080");
 });
