@@ -26,6 +26,7 @@ app.get("/register", async (req, res) => {
   }
 });
 
+
 app.get("/greet", (req, res) => {
   res.send("Greetings");
 });
