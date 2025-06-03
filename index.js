@@ -2,47 +2,37 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 const app = express();
-
-app.listen(8080, () => {
+app.listen(8080,()=>{
   mongoose.connect("mongodb://localhost:27017/gcet");
   console.log("server started");
 });
 
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   name: { type: String },
-  email: { type: String },
-  pass: { type: String },
 });
 
-const user = mongoose.model("User", userSchema);
-
+const user = mongoose.model("User",userSchema);
+app.listen(8080, () => {
+  console.log("Server Started");
+});
 app.use(cors());
-app.use(express.json());
-
 app.get("/", (req, res) => {
-  return res.send("Hello World");
+  return res.send("Good Morning");
 });
-
-app.post("/register", async (req, res) => {
-  const { name, email, pass } = req.body;
-  const result = await user.insertOne({
-    name: name,
-    email: email,
-    pass: pass,
-  });
+app.get("/register",async(req,res)=>{
+  const result = await User.create({ name: "Sravanthi" });
   return res.json(result);
 });
-
 app.get("/greet", (req, res) => {
   res.send("Greetings");
 });
 
 app.get("/name", (req, res) => {
-  res.send("Umadevi");
+  res.send("Sravanthi");
 });
 
 app.get("/weather", (req, res) => {
-  res.send("35 degrees");
+  res.send("30 degrees");
 });
 
 app.get("/products", (req, res) => {
@@ -53,3 +43,4 @@ app.get("/products", (req, res) => {
   ];
   res.json(products);
 });
+
