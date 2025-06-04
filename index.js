@@ -18,7 +18,7 @@ app.use("/products", productRouter);
 app.use("/orders",orderRouter)
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGO_URI)
   .then(() => {
     app.listen(8080, () => {
       console.log("Server Started on port 8080");
