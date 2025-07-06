@@ -8,10 +8,7 @@ import orderRouter from "./routes/orderRoutes.js";
 
 dotenv.config();
 const app = express();
-app.use(cors({
-  origin: "https://gcet-react-app-tw5l.vercel.app"
-}));
-
+app.use(cors());
 app.use(express.json());
 
 const MONGO_URI = process.env.MONGO_URI
